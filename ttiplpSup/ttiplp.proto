@@ -1,18 +1,39 @@
-getIDN {
-    out "*IDN?";
-    in "%\$1[^\r\n]";
-    ExtraInput = Ignore;
+OutTerminator = "\n";
+InTerminator = "\r\n";
+ReplyTimeout = 2000;
+ExtraInput = Ignore;
+
+# Instrument Identification
+getIDN {out "*IDN?";in "%#s"}
+
+# Output state
+getOutputStatus {out "OP1?";in "%{0|1}"}
+setOutputStatus {out "OP1 %{0|1}";
+@init { getOutputStatus; }
 }
 
-cmd {
-    out "\$1";
+# Output voltage
+getActualOutputVoltage {out "V1O?";in "%fV"}
+getOutputVoltageSetpoint {out "V1?";in "V1 %f"}
+setVoltage {out "V1 %f";
+@init { getOutputVoltageSetpoint; }
 }
 
-setD {
-    out "\$1 %d";
+# Set the output Current
+getActualOutputCurrent {out "I1O?";in "%fA"}
+getOutputCurrentSetpoint {out "I1?";in "I1 %f"}
+setCurrent {out "I1 %f";
+@init { getOutputCurrentSetpoint;}
 }
-getD {
-    out "\$1?";
-    in "%d";
-    ExtraInput = Ignore;
+
+# Over voltage protection trip
+getOverVoltageProtectTrip {out "OVP1?";in "%f"}
+setOverVoltageProtectTrip {out "OVP1 %f";
+@init { getOverVoltageProtectTrip; }
+}
+
+# Over current protection trip
+getOverCurrentProtectTrip {out "OCP1?";in "%f"}
+setOverCurrentProtectTrip {out "OCP1 %f";
+@init { getOverCurrentProtectTrip; }
 }

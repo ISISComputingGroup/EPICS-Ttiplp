@@ -5,7 +5,7 @@ record(bo, "$(P)SIM")
     field(ZNAM, "NO")
     field(ONAM, "YES")
     field(VAL, "$(RECSIM=0)")
-    field(PINI, "YES")
+    field(PINI, "NO")
 }
 
 record(bo, "$(P)DISABLE")
@@ -17,3 +17,286 @@ record(bo, "$(P)DISABLE")
     field(ZNAM, "COMMS ENABLED")
     field(ONAM, "COMMS DISABLED")
 }
+# Device identity - waveform as the identity is too long for a string.
+record(waveform, "$(P,undefined)IDENT")
+    {
+    field(DESC, "Identity")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+    field(INP,  "@ttiplp.proto getIDN $(PORT,undefined)")
+    field(SCAN, "10 second")
+    field(NELM, "128")
+    field(FTVL, "CHAR")
+    info(INTEREST, "LOW")
+}
+
+# This is commented out as the device identity string returned is too long
+# record(stringin, "$(P,undefined)IDENT")
+#    {
+#    field(DESC, "Identity")
+#    field(DTYP, "stream")
+#    field(INP,  "@ttiplp.proto getIDN $(PORT,undefined)")
+#    field(SCAN, "10 second")
+#    info(INTEREST, "LOW")
+# }
+	
+# The read back output voltage
+record(ai, "$(P)VOLTAGE") 
+{
+    field(DESC, "Present output voltage")
+    field(SCAN, ".5 second")
+    field(DTYP, "stream")
+    field(PREC, "3")
+    field(EGU,  "V")
+    field(INP,  "@ttiplp.proto getActualOutputVoltage $(PORT)")
+	field(PINI, "NO")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:VOLTAGE")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+}
+
+# The read back output voltage Setpoint
+record(ai, "$(P)VOLTAGE:SP:RBV") 
+{
+    field(DESC, "Output voltage setpoint readback")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(PREC, "3")
+    field(EGU,  "V")
+    field(INP,  "@ttiplp.proto getOutputVoltageSetpoint $(PORT,undefined)")
+	field(PINI, "NO")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:VOLTAGE:SP:RBV")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+}
+
+record(fanout, "$(P)SCAN")
+{
+    field(DESC, "Catchup scan for device setpoints")
+    field(SCAN, "5 second")
+    field(LNK1, "$(P)VOLTAGE:SP:RBV")
+    field(LNK2, "$(P)CURRENT:SP:RBV")
+    field(LNK3, "$(P)OVERVOLT:SP:RBV")
+    field(LNK4, "$(P)OVERCURR:SP:RBV")
+    field(LNK5, "$(P)OUTPUT")
+}
+
+record(fanout, "$(P)UPDATE")
+{
+    field(SCAN, "Passive")
+    field(TPRO, "1")
+    field(LNK1, "$(P)VOLTAGE")
+    field(LNK2, "$(P)CURRENT")
+    field(LNK3, "$(P)OUTPUT")
+}
+
+# The read back output current
+record(ai, "$(P)CURRENT") 
+{
+    field(DESC, "Present output current")
+    field(SCAN, ".5 second")
+    field(DTYP, "stream")
+    field(PREC, "4")
+    field(EGU,  "A")
+    field(INP,  "@ttiplp.proto getActualOutputCurrent $(PORT,undefined)")
+	field(PINI, "NO")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CURRENT")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+}
+
+# The read back output current Setpoint
+record(ai, "$(P)CURRENT:SP:RBV") 
+{
+    field(DESC, "Output current setpoint readback")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(PREC, "4")
+    field(EGU,  "A")
+    field(INP,  "@ttiplp.proto getOutputCurrentSetpoint $(PORT,undefined)")
+	field(PINI, "NO")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CURRENT:SP:RBV")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+}
+# The read back over voltage protection trip
+record(ai, "$(P)OVERVOLT:SP:RBV") 
+{
+    field(DESC, "Over voltage setpoint readback")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(PREC, "3")
+    field(EGU,  "V")
+    field(INP,  "@ttiplp.proto getOverVoltageProtectTrip $(PORT,undefined)")
+	field(PINI, "NO")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:OVERVOLT:SP:RBV")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "MEDIUM")
+}
+# The read back over current protection trip
+record(ai, "$(P)OVERCURR:SP:RBV") 
+{
+    field(DESC, "Over current setpoint readback")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(PREC, "4")
+    field(EGU,  "A")
+    field(INP,  "@ttiplp.proto getOverCurrentProtectTrip $(PORT,undefined)")
+	field(PINI, "NO")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:OVERCURR:SP:RBV")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "MEDIUM")
+}
+# The Readback of the output state
+record(bi, "$(P)OUTPUT") 
+{
+    field(DESC, "Output status")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(INP,  "@ttiplp.proto getOutputStatus $(PORT)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:OUTPUT")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+}
+# Output control
+record(bo, "$(P)OUTPUT:SP") 
+{
+    field(DESC, "Output control")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,  "@ttiplp.proto setOutputStatus $(PORT)")
+    field(FLNK, "$(P)UPDATE")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:OUTPUT:SP")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+}
+# The desired output voltage.
+record(ao, "$(P)VOLTAGE:SP") 
+{
+    field(DESC, "Output voltage setpoint")
+    field(EGU, "V")
+    field(PREC, "3")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,  "@ttiplp.proto setVoltage $(PORT)")
+    field(FLNK, "$(P)VOLTAGE:SP:RBV")
+    field(PINI, "NO")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:VOLTAGE:SP")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+}
+# The desired output currrent.
+record(ao, "$(P)CURRENT:SP") 
+{
+    field(DESC, "Output current setpoint")
+    field(EGU, "A")
+    field(PREC, "4")
+    field(SCAN, "Passive")
+    field(FLNK, "$(P)CURRENT:SP:RBV")
+    field(DTYP, "stream")
+    field(OUT,  "@ttiplp.proto setCurrent $(PORT)")
+    field(PINI, "NO")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CURRENT:SP")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+}
+# The desired over voltage protection trip.
+record(ao, "$(P)OVERVOLT:SP") 
+{
+    field(DESC, "Over voltage setpoint")
+    field(EGU, "V")
+    field(PREC, "3")
+    field(SCAN, "Passive")
+    field(FLNK, "$(P)OVERVOLT:SP:RBV")
+    field(DTYP, "stream")
+    field(OUT,  "@ttiplp.proto setOverVoltageProtectTrip $(PORT)")
+    field(PINI, "NO")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:OVERVOLT:SP")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "MEDIUM")
+}
+# The desired over current protection trip.
+record(ao, "$(P)OVERCURR:SP") 
+{
+    field(DESC, "Over current setpoint")
+    field(EGU, "A")
+    field(PREC, "4")
+    field(SCAN, "Passive")
+    field(FLNK, "$(P)OVERCURR:SP:RBV")
+    field(DTYP, "stream")
+    field(OUT,  "@ttiplp.proto setOverCurrentProtectTrip $(PORT)")
+    field(PINI, "NO")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:OVERCURR:SP")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "MEDIUM")
+}
+
+#**************************
+#*** Simulation Records ***
+#**************************
+
+record(ao, "$(P)SIM:OVERCURR:SP") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:OVERCURR:SP","$(P)SIM:OVERCURR:SP:RBV")
+
+record(ao, "$(P)SIM:OVERVOLT:SP") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:OVERVOLT:SP","$(P)SIM:OVERVOLT:SP:RBV")
+
+record(ao, "$(P)SIM:CURRENT:SP") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:CURRENT:SP","$(P)SIM:CURRENT:SP:RBV")
+alias("$(P)SIM:CURRENT:SP","$(P)SIM:CURRENT")
+
+record(ao, "$(P)SIM:VOLTAGE:SP") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:VOLTAGE:SP","$(P)SIM:VOLTAGE:SP:RBV")
+alias("$(P)SIM:VOLTAGE:SP","$(P)SIM:VOLTAGE")
+
+record(bo, "$(P)SIM:OUTPUT:SP") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:OUTPUT:SP","$(P)SIM:OUTPUT")
+
+record(ao, "$(P)SIM:VOLTAGE") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ao, "$(P)SIM:CURRENT") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
