@@ -24,21 +24,22 @@ record(waveform, "$(P,undefined)IDENT")
     field(DTYP, "stream")
     field(PINI, "YES")
     field(INP,  "@ttiplp.proto getIDN $(PORT,undefined)")
-    field(SCAN, "10 second")
+    field(SCAN, "Passive")
     field(NELM, "128")
     field(FTVL, "CHAR")
     info(INTEREST, "LOW")
 }
 
 # This is commented out as the device identity string returned is too long
-# record(stringin, "$(P,undefined)IDENT")
-#    {
-#    field(DESC, "Identity")
-#    field(DTYP, "stream")
-#    field(INP,  "@ttiplp.proto getIDN $(PORT,undefined)")
-#    field(SCAN, "10 second")
-#    info(INTEREST, "LOW")
-# }
+record(stringin, "$(P,undefined)IDENTSTR")
+    {
+    field(DESC, "Identity")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+    field(INP,  "@ttiplp.proto getIDN $(PORT,undefined)")
+    field(SCAN, "Passive")
+    info(INTEREST, "LOW")
+ }
 	
 # The read back output voltage
 record(ai, "$(P)VOLTAGE") 
