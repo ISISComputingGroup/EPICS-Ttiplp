@@ -7,8 +7,8 @@ ExtraInput = Ignore;
 getIDN {out "*IDN?";in "%#s"}
 
 # Output state
-getOutputStatus {out "OP1?";in "%{0|1}"}
-setOutputStatus {out "OP1 %{0|1}";
+getOutputStatus {out "OP\$1?";in "%{0|1}"}
+setOutputStatus {out "OP\$1 %{0|1}";
 @init { getOutputStatus; }
 }
 
