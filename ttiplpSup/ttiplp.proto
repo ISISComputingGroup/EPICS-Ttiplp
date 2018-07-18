@@ -13,27 +13,27 @@ setOutputStatus {out "OP1 %{0|1}";
 }
 
 # Output voltage
-getActualOutputVoltage {out "V1O?";in "%fV"}
-getOutputVoltageSetpoint {out "V1?";in "V1 %f"}
-setVoltage {out "V1 %f";
+getActualOutputVoltage {out "V\$1O?";in "%fV"}
+getOutputVoltageSetpoint {out "V\$1?";in "V\$1 %f"}
+setVoltage {out "V\$1 %f";
 @init { getOutputVoltageSetpoint; }
 }
 
 # Set the output Current
-getActualOutputCurrent {out "I1O?";in "%fA"}
-getOutputCurrentSetpoint {out "I1?";in "I1 %f"}
-setCurrent {out "I1 %f";
+getActualOutputCurrent {out "I\$1O?";in "%fA"}
+getOutputCurrentSetpoint {out "I\$1?";in "I\$1 %f"}
+setCurrent {out "I\$1 %f";
 @init { getOutputCurrentSetpoint;}
 }
 
 # Over voltage protection trip
-getOverVoltageProtectTrip {out "OVP1?";in "%f"}
-setOverVoltageProtectTrip {out "OVP1 %f";
+getOverVoltageProtectTrip {out "OVP\$1?";in "%f"}
+setOverVoltageProtectTrip {out "OVP\$1 %f";
 @init { getOverVoltageProtectTrip; }
 }
 
 # Over current protection trip
-getOverCurrentProtectTrip {out "OCP1?";in "%f"}
-setOverCurrentProtectTrip {out "OCP1 %f";
+getOverCurrentProtectTrip {out "OCP\$1?";in "%f"}
+setOverCurrentProtectTrip {out "OCP\$1 %f";
 @init { getOverCurrentProtectTrip; }
 }
