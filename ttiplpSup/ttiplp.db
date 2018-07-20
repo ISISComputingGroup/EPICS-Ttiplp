@@ -27,6 +27,7 @@ record(waveform, "$(P,undefined)IDENT")
     field(SCAN, "Passive")
     field(NELM, "128")
     field(FTVL, "CHAR")
+    field(SDIS, "$(P)DISABLE")
     info(INTEREST, "LOW")
 }
 
@@ -38,6 +39,7 @@ record(stringin, "$(P,undefined)IDENTSTR")
     field(PINI, "YES")
     field(INP,  "@ttiplp.proto getIDN $(PORT,undefined)")
     field(SCAN, "Passive")
+    field(SDIS, "$(P)DISABLE")
     info(INTEREST, "LOW")
  }
 	
@@ -54,6 +56,8 @@ record(ai, "$(P)VOLTAGE")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:VOLTAGE")
     field(SDIS, "$(P)DISABLE")
+    field(SDIS, "$(P)DISABLE")
+    info(alarm, "TTIPLP")
     info(INTEREST, "HIGH")
 }
 
@@ -106,6 +110,7 @@ record(ai, "$(P)CURRENT")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:CURRENT")
     field(SDIS, "$(P)DISABLE")
+    info(alarm, "TTIPLP")
     info(INTEREST, "HIGH")
 }
 
@@ -166,6 +171,7 @@ record(bi, "$(P)OUTPUT")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:OUTPUT")
     field(SDIS, "$(P)DISABLE")
+    info(alarm, "TTIPLP")
     info(INTEREST, "HIGH")
 }
 # Output control
