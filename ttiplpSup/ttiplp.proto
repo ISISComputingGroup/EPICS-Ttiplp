@@ -1,7 +1,6 @@
 OutTerminator = "\n";
 InTerminator = "\r\n";
 ReplyTimeout = 2000;
-ExtraInput = Ignore;
 
 # Instrument Identification
 getIDN {out "*IDN?";in "%#s"}
