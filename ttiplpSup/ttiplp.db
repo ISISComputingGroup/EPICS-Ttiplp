@@ -30,18 +30,6 @@ record(waveform, "$(P)IDENT")
     field(SDIS, "$(P)DISABLE")
     info(INTEREST, "LOW")
 }
-
-# Device identity as standard string
-record(stringin, "$(P)IDENTSTR")
-    {
-    field(DESC, "Identity")
-    field(DTYP, "stream")
-    field(PINI, "YES")
-    field(INP,  "@ttiplp.proto getIDN $(PORT)")
-    field(SCAN, "Passive")
-    field(SDIS, "$(P)DISABLE")
-    info(INTEREST, "LOW")
- }
 	
 # The read back output voltage
 record(ai, "$(P)VOLTAGE") 
