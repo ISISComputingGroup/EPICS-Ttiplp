@@ -1,0 +1,38 @@
+OutTerminator = "\n";
+InTerminator = "\r\n";
+ReplyTimeout = 2000;
+
+# Instrument Identification
+getIDN {out "*IDN?";in "%#s"}
+
+# Output state
+getOutputStatus {out "OP\$1?";in "%{0|1}"}
+setOutputStatus {out "OP\$1 %{0|1}";
+@init { getOutputStatus; }
+}
+
+# Output voltage
+getActualOutputVoltage {out "V\$1O?";in "%fV"}
+getOutputVoltageSetpoint {out "V\$1?";in "V\$1 %f"}
+setVoltage {out "V\$1 %f";
+@init { getOutputVoltageSetpoint; }
+}
+
+# Set the output Current
+getActualOutputCurrent {out "I\$1O?";in "%fA"}
+getOutputCurrentSetpoint {out "I\$1?";in "I\$1 %f"}
+setCurrent {out "I\$1 %f";
+@init { getOutputCurrentSetpoint;}
+}
+
+# Over voltage protection trip
+getOverVoltageProtectTrip {out "OVP\$1?";in "%f"}
+setOverVoltageProtectTrip {out "OVP\$1 %f";
+@init { getOverVoltageProtectTrip; }
+}
+
+# Over current protection trip
+getOverCurrentProtectTrip {out "OCP\$1?";in "%f"}
+setOverCurrentProtectTrip {out "OCP\$1 %f";
+@init { getOverCurrentProtectTrip; }
+}
