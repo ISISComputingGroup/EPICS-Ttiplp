@@ -264,6 +264,29 @@ record(fanout, "$(P)OVERCURR:UPDATE")
     field(LNK2, "$(P)OUTPUT")
 }
 
+# Check the overvolt trip status
+record(bi, "$(P)OVERVOLT:STAT")
+{
+    field(DESC, "Overvolt trip status")
+    field(SCAN, "Passive")
+    field(ZNAM, "Ok")
+    field(ONAM, "Error")
+    field(VAL, "0")
+    field(PINI, "1")
+} 
+
+# Check the overcurrent trip status
+record(bi, "$(P)OVERCURR:STAT")
+{
+    field(DESC, "Overcurrent trip status")
+    field(SCAN, "Passive")
+    field(ZNAM, "Ok")
+    field(ONAM, "Error")
+    field(VAL, "0")
+    field(PINI, "1")
+} 
+
+
 
 #**************************
 #*** Simulation Records ***
