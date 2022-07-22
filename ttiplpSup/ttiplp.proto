@@ -36,3 +36,6 @@ getOverCurrentProtectTrip {out "OCP\$1?";in "%f"}
 setOverCurrentProtectTrip {out "OCP\$1 %f";
 @init { getOverCurrentProtectTrip; }
 }
+
+# Get the limit event status register
+getEventStatusRegister {out "LSR\$1?";in "%d"}

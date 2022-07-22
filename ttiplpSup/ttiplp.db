@@ -270,9 +270,8 @@ record(bi, "$(P)OVERVOLT:STAT")
     field(DESC, "Overvolt trip status")
     field(SCAN, "Passive")
     field(ZNAM, "Ok")
-    field(ONAM, "Error")
-    field(VAL, "0")
-    field(PINI, "1")
+    field(ONAM, "Tripped")
+    field(INP,  "$(P)LSR.B2 CP MSS")
 } 
 
 # Check the overcurrent trip status
@@ -281,10 +280,18 @@ record(bi, "$(P)OVERCURR:STAT")
     field(DESC, "Overcurrent trip status")
     field(SCAN, "Passive")
     field(ZNAM, "Ok")
-    field(ONAM, "Error")
-    field(VAL, "0")
-    field(PINI, "1")
+    field(ONAM, "Tripped")
+    field(INP,  "$(P)LSR.B3 CP MSS")
 } 
+
+# Read from the Limit Event Status Register
+record(mbbiDirect, "$(P)LSR")
+{
+    field(DESC, "Limit Event Status Register")
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@ttiplp.proto getEventStatusRegister($(ADDRESS)) $(PORT)")
+}
 
 
 
