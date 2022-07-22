@@ -39,3 +39,6 @@ setOverCurrentProtectTrip {out "OCP\$1 %f";
 
 # Get the limit event status register
 getEventStatusRegister {out "LSR\$1?";in "%d"}
+
+# Attempt to clear all trip conditions
+tripReset {out "TRIPRST"}

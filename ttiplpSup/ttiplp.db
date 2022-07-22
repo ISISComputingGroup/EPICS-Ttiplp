@@ -293,6 +293,13 @@ record(mbbiDirect, "$(P)LSR")
     field(INP,  "@ttiplp.proto getEventStatusRegister($(ADDRESS)) $(PORT)")
 }
 
+# Attempt to clear all trip conditions
+record(bo, "$(P)TRIPRST")
+{
+    field(DESC, "Try to clear all set trip bits")
+    field(OUT,  "@ttiplp.proto tripReset $(PORT)")
+    field(DTYP, "stream")
+}
 
 
 #**************************
