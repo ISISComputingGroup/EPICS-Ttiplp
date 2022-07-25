@@ -272,6 +272,10 @@ record(bi, "$(P)OVERVOLT:STAT")
     field(ZNAM, "Ok")
     field(ONAM, "Tripped")
     field(INP,  "$(P)LSR.B2 CP MSS")
+
+    field(ZSV,  "NO_ALARM")
+    field(OSV,  "MAJOR")
+    info(alarm, "TTIPLP")
 } 
 
 # Check the overcurrent trip status
@@ -282,6 +286,10 @@ record(bi, "$(P)OVERCURR:STAT")
     field(ZNAM, "Ok")
     field(ONAM, "Tripped")
     field(INP,  "$(P)LSR.B3 CP MSS")
+
+    field(ZSV,  "NO_ALARM")
+    field(OSV,  "MAJOR")
+    info(alarm, "TTIPLP")
 } 
 
 # Read from the Limit Event Status Register
