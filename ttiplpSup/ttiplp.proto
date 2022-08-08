@@ -26,13 +26,13 @@ setCurrent {out "I\$1 %f";
 }
 
 # Over voltage protection trip
-getOverVoltageProtectTrip {out "OVP\$1?";in "%f"}
+getOverVoltageProtectTrip {out "OVP\$1?";in "VP\$1 %f"}
 setOverVoltageProtectTrip {out "OVP\$1 %f";
 @init { getOverVoltageProtectTrip; }
 }
 
 # Over current protection trip
-getOverCurrentProtectTrip {out "OCP\$1?";in "%f"}
+getOverCurrentProtectTrip {out "OCP\$1?";in "CP\$1 %f"}
 setOverCurrentProtectTrip {out "OCP\$1 %f";
 @init { getOverCurrentProtectTrip; }
 }
