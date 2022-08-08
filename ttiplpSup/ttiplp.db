@@ -292,6 +292,20 @@ record(bi, "$(P)OVERCURR:STAT")
     info(alarm, "TTIPLP")
 } 
 
+# Check for a trip that requires a manual reset or reboot of the device.
+record(bi, "$(P)TRIP:STAT")
+{
+    field(DESC, "Trip status needing physical reset")
+    field(SCAN, "Passive")
+    field(ZNAM, "Ok")
+    field(ONAM, "Tripped")
+    field(INP,  "$(P)LSR.B6 CP MSS")
+
+    field(ZSV,  "NO_ALARM")
+    field(OSV,  "MAJOR")
+    info(alarm, "TTIPLP")
+}
+
 # Read from the Limit Event Status Register
 record(mbbiDirect, "$(P)LSR")
 {
