@@ -135,6 +135,7 @@ record(ai, "$(P)OVERVOLT:SP:RBV")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:OVERVOLT:SP:RBV")
     field(SDIS, "$(P)DISABLE")
+    info(archive, "VAL")
     info(INTEREST, "MEDIUM")
 }
 # The read back over current protection trip
@@ -150,6 +151,7 @@ record(ai, "$(P)OVERCURR:SP:RBV")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:OVERCURR:SP:RBV")
     field(SDIS, "$(P)DISABLE")
+    info(archive, "VAL")
     info(INTEREST, "MEDIUM")
 }
 # The Readback of the output state
