@@ -135,6 +135,7 @@ record(ai, "$(P)OVERVOLT:SP:RBV")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:OVERVOLT:SP:RBV")
     field(SDIS, "$(P)DISABLE")
+    info(archive, "VAL")
     info(INTEREST, "MEDIUM")
 }
 # The read back over current protection trip
@@ -150,6 +151,7 @@ record(ai, "$(P)OVERCURR:SP:RBV")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:OVERCURR:SP:RBV")
     field(SDIS, "$(P)DISABLE")
+    info(archive, "VAL")
     info(INTEREST, "MEDIUM")
 }
 # The Readback of the output state
@@ -262,6 +264,85 @@ record(fanout, "$(P)OVERCURR:UPDATE")
     field(TPRO, "1")
     field(LNK1, "$(P)OVERCURR:SP:RBV")
     field(LNK2, "$(P)OUTPUT")
+}
+
+# Check the overvolt trip status
+record(bi, "$(P)OVERVOLT:STAT")
+{
+    field(DESC, "Overvolt trip status")
+    field(SCAN, "Passive")
+    field(ZNAM, "Ok")
+    field(ONAM, "Tripped")
+    field(INP,  "$(P)LSR.B2 CP MSS")
+
+    field(ZSV,  "NO_ALARM")
+    field(OSV,  "MAJOR")
+    info(alarm, "TTIPLP")
+} 
+
+# Check the overcurrent trip status
+record(bi, "$(P)OVERCURR:STAT")
+{
+    field(DESC, "Overcurrent trip status")
+    field(SCAN, "Passive")
+    field(ZNAM, "Ok")
+    field(ONAM, "Tripped")
+    field(INP,  "$(P)LSR.B3 CP MSS")
+
+    field(ZSV,  "NO_ALARM")
+    field(OSV,  "MAJOR")
+    info(alarm, "TTIPLP")
+} 
+
+# Check the voltage limit status
+record(bi, "$(P)VOLTAGE:STAT")
+{
+    field(DESC, "Output in voltage limit")
+    field(SCAN, "Passive")
+    field(ZNAM, "Ok")
+    field(ONAM, "Limit")
+    field(INP,  "$(P)LSR.B0 CP MSS")
+}
+
+# Check the current limit status
+record(bi, "$(P)CURRENT:STAT")
+{
+    field(DESC, "Output in current limit")
+    field(SCAN, "Passive")
+    field(ZNAM, "Ok")
+    field(ONAM, "Limit")
+    field(INP,  "$(P)LSR.B1 CP MSS")
+}
+
+# Check for a trip that requires a manual reset or reboot of the device.
+record(bi, "$(P)TRIP:STAT")
+{
+    field(DESC, "Trip status needing physical reset")
+    field(SCAN, "Passive")
+    field(ZNAM, "Ok")
+    field(ONAM, "Tripped")
+    field(INP,  "$(P)LSR.B6 CP MSS")
+
+    field(ZSV,  "NO_ALARM")
+    field(OSV,  "MAJOR")
+    info(alarm, "TTIPLP")
+}
+
+# Read from the Limit Event Status Register
+record(mbbiDirect, "$(P)LSR")
+{
+    field(DESC, "Limit Event Status Register")
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@ttiplp.proto getEventStatusRegister($(ADDRESS)) $(PORT)")
+}
+
+# Attempt to clear all trip conditions
+record(bo, "$(P)TRIPRST")
+{
+    field(DESC, "Try to clear all set trip bits")
+    field(OUT,  "@ttiplp.proto tripReset $(PORT)")
+    field(DTYP, "stream")
 }
 
 
